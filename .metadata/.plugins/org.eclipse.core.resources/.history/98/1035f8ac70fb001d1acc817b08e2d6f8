@@ -1,0 +1,55 @@
+package hellojava.practice;
+
+public class Damagochi {
+		final String name;
+		final String str_type;
+		// TODO toatal hp_bar
+		private int hp_bar = 100;
+		private int hp_gage = 100;
+		private int exp = 0;
+		int int_lv = 1;
+		private int old_lv = 1;
+		
+		public Damagochi(String name, String str_type){
+			this.name = name;
+			this.str_type = str_type;
+			System.out.println(this.name + " TYPE: "+ str_type + "ㅋㅊㅋㅊㅋㅊ");
+		}
+		
+		void exp_develop() {
+			if(this.int_lv < 4) {
+				if(this.exp < 100) {
+					this.exp += 3;
+				}else {
+					this.exp = this.exp - 100;
+					lv_up();
+				}
+			}else {
+				this.exp = 100;
+				System.out.println("FULL EXP");
+			}
+		}
+		
+		private void lv_up() {
+			if(this.int_lv == 4) {
+				System.out.println("만렙!");
+			}else {
+				this.old_lv = this.int_lv++;
+				int hp_up_point = 5 * this.int_lv;
+				hp_manage(hp_up_point);
+				System.out.println(old_lv+ "=>"+this.int_lv +"LV UP!!");
+			}
+		}
+		
+		private void hp_manage(int hp_point) {
+			if(this.old_lv != this.int_lv) {
+				this.hp_bar = this.hp_bar + hp_point;
+				System.out.printf("HP: + %d => %d \n",hp_point, this.hp); 
+			}
+		}
+		
+		void dama_output() {
+			System.out.println("NAME: " + this.name+ " TYPE: " + this.str_type+ " EXP: " + this.exp + " LV: " + this.int_lv);
+		}
+		
+}

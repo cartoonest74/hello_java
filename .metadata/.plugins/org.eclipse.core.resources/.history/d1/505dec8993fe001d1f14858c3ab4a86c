@@ -1,0 +1,12 @@
+package hellojava.practice;
+
+public class Activity {
+	String name = null;
+	public Activity(String name) {
+		this.name = name;
+		System.out.println("%s :",this.name);
+	}
+	public void onCreate() {
+		System.out.println("BOOM");
+	}
+}

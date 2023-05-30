@@ -1,0 +1,10 @@
+package hellojava.practice;
+
+public class ParentTest {
+	public String nation;
+	
+	public ParentTest() {
+		this("japan");
+		System.out.println("ParentTest() call");
+	}
+}

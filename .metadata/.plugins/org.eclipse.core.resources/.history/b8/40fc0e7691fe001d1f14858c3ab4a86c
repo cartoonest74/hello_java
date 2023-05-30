@@ -1,0 +1,7 @@
+package hellojava.practice;
+
+public class InstanceC {
+	public void method1() {
+		System.out.println("A");
+	}
+}

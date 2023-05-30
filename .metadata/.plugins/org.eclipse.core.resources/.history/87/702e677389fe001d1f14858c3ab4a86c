@@ -1,0 +1,12 @@
+package hellojava.practice;
+
+public class ChildTest {
+	public String name;
+	
+	public ChildTest() {
+		this("gd");
+		System.out.println("ChildTest() call");
+	}
+	
+	public ChildTest(String name)
+}

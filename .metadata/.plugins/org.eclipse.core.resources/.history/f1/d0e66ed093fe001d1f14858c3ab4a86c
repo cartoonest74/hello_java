@@ -1,0 +1,11 @@
+package hellojava.practice;
+
+public class MainActivity extends Activity {
+	public MainActivity() {
+		
+	}
+	public void onCreate() {
+		super("gd").onCreate();
+		System.out.println("+BOOM");
+	}
+}

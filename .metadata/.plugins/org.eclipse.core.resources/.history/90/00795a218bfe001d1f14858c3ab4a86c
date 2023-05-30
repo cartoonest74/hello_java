@@ -1,0 +1,11 @@
+package hellojava.practice;
+
+public class TireExample {
+	public static void main(String[] arg) {
+		SnowTire st = new SnowTire();
+		Tire tr = st;
+		SnowTire ctr = (SnowTire)Tire; 
+		st.run();
+		tr.run();
+	}
+}

@@ -1,0 +1,8 @@
+package hellojava.practice;
+
+public interface DataAccessObject {
+	public void select();
+	public void select();
+	public void select();
+	public void delete();
+}

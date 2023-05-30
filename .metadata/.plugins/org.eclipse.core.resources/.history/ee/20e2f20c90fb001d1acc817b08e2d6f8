@@ -1,0 +1,7 @@
+package hellojava.practice;
+
+public class DriverExample {
+	public static void main(String[] args){
+		
+	}
+}

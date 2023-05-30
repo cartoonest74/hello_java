@@ -1,0 +1,11 @@
+package hellojava.practice;
+
+public class Activity {
+	String name;
+	public Activity(String name) {
+		
+	}
+	public void onCreate() {
+		System.out.println("BOOM");
+	}
+}

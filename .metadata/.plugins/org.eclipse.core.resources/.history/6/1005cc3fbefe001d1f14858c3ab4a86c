@@ -1,0 +1,5 @@
+package hellojava.practice;
+
+public class DaoExample {
+	public static void dbWork(DataAccessObject dao) {}
+}

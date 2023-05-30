@@ -1,0 +1,7 @@
+package hellojava.practice;
+
+public class SnowTire {
+	public void run() {
+		System.out.println("snow run")''
+	}
+}

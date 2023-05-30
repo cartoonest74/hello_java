@@ -1,0 +1,7 @@
+package hellojava.practice;
+
+public class ActivityExample {
+	public void main(String[] arg) {
+		Activity acti = new MainActivity();
+	}
+}

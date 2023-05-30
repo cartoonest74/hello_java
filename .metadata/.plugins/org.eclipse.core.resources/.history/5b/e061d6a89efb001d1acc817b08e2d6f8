@@ -1,0 +1,6 @@
+package hellojava.practice;
+
+public abstract class AbstractOnepiece {
+	public void 
+	public abstract void charcter_voice();
+}

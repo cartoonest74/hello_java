@@ -1,0 +1,7 @@
+package hellojava.practice;
+
+public class TV implements Remocon{
+		public void powerOn() {
+			
+		}
+}

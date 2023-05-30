@@ -1,0 +1,9 @@
+package hellojava.practice;
+
+public class Damagochi_test {
+	public static void main(String[] args){
+		Damagochi jiwoo = new Damagochi("pika");
+		jiwoo.dama_output();
+		
+	}
+}
