@@ -5,5 +5,5 @@
  * @author KOSTA
  *
  */
-module hello_java {
+module my_lib {
 }
