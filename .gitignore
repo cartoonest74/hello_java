@@ -1,1 +1,7 @@
 /.metadata/
+.settings/
+.classpath
+bin/
+.project
+.gitignore
+my_application_!/

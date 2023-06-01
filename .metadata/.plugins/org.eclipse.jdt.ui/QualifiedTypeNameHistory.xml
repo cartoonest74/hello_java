@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="hellojava.practice2.Button.ClickListener"/>
+    <fullyQualifiedTypeName name="hellojava.practice2.Car"/>
+    <fullyQualifiedTypeName name="hellojava.practice2.Car.Tire"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>
