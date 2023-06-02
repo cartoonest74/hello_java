@@ -1,7 +1,0 @@
-package hellojava.practice;
-
-public class Damagochi_test {
-	public static void main(String[] args){
-		Damagochi picachu = new Damagochi
-	}
-}
