@@ -1,6 +1,0 @@
-package hellojava.practice;
-
-public abstract class AbstractOnepiece {
-	String name;
-	String skill;
-}

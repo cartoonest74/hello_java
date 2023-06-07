@@ -1,7 +1,0 @@
-package hellojava.practice;
-
-public class Taxi extends Vehicle{
-	public void run() {
-		System.out.println("taxi이 달립니다.");
-	}
-}
