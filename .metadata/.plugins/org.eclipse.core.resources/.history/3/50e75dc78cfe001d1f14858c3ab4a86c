@@ -1,7 +1,0 @@
-package hellojava.practice;
-
-public class MainActivity extends Activity {
-	public void onCreate() {
-		super().onCreate()
-	}
-}

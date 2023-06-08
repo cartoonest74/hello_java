@@ -1,7 +1,0 @@
-package hellojava.practice;
-
-public class ParentExample {
-	public static void main(String[] arg) {
-		C
-	}
-}

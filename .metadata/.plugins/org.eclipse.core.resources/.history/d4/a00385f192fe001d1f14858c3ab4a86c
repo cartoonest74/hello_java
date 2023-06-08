@@ -1,7 +1,0 @@
-package hellojava.practice;
-
-public class Activity {
-	public void onCreate() {
-		System.out.println("BOOM");
-	}
-}

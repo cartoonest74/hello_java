@@ -1,7 +1,0 @@
-package hellojava.practice;
-
-public class OracleDao implements DataAccessObject{
-	public void insert() {
-		System.out.println();
-	}
-}

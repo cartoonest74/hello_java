@@ -1,7 +1,0 @@
-package hellojava.practice;
-
-public class SnowTire extends tire {
-	public void run() {
-		System.out.println("snow run");
-	}
-}

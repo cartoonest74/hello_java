@@ -1,9 +1,0 @@
-package hellojava.practice;
-
-public class ChildTest {
-	public String name;
-	
-	public ChildTest() {
-		this("gd");
-	}
-}

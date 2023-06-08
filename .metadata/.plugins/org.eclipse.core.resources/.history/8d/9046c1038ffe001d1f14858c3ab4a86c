@@ -1,5 +1,0 @@
-package hellojava.practice;
-
-public class ActivityExample {
-	Activity acti = new MainActivity()
-}

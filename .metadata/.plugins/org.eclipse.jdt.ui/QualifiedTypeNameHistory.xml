@@ -5,4 +5,23 @@
     <fullyQualifiedTypeName name="hellojava.practice2.Car.Tire"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.util.Iterator"/>
+    <fullyQualifiedTypeName name="hello_java.collectionExam.PersonDao"/>
+    <fullyQualifiedTypeName name="hello_java.inheritest.Person"/>
+    <fullyQualifiedTypeName name="hello_java.collectionExam.PersonVo"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="hello_java.collectionExam.PersonMain"/>
+    <fullyQualifiedTypeName name="hello_java.lamda.ComparePerson"/>
+    <fullyQualifiedTypeName name="hello_java.lamda.Button.ClickListener"/>
+    <fullyQualifiedTypeName name="java.util.function.Function"/>
+    <fullyQualifiedTypeName name="hello_java.lamda.LamOperator"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.nio.file.Files"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="java.util.Comparator"/>
+    <fullyQualifiedTypeName name="java.lang.FunctionalInterface"/>
+    <fullyQualifiedTypeName name="hello_java.stream.MakeStudent"/>
+    <fullyQualifiedTypeName name="java.util.Collections"/>
+    <fullyQualifiedTypeName name="java.lang.Override"/>
+    <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 </qualifiedTypeNameHistroy>

@@ -1,8 +1,0 @@
-package hellojava.practice;
-
-public class InstanceExample {
-	public static void action(A a)
-	public void main(String[] arg) {
-		
-	}
-}
