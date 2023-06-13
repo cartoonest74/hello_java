@@ -59,6 +59,8 @@ public class ChatServer {
 		String json = root.toString();
 
 		Collection<SocketClient> socketClients = chatRoom.values();
+		System.out.println("socketClients: " + socketClients);
+		System.out.println("sender: " + sender);
 		for (SocketClient sClient : socketClients) {
 			if (sClient == sender) continue;
 			sClient.send(json);
