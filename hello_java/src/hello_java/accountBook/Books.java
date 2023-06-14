@@ -1,9 +1,5 @@
 package hello_java.accountBook;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
 public class Books {
 	
 	private int pNo;

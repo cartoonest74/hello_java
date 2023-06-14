@@ -6,9 +6,12 @@ public class Testexam {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		String str_test = sc.next();
+		System.out.print("상품이름: ");
 		sc.nextLine();
-		System.out.println(str_test);
+		System.out.print("상품가격: ");
+		sc.nextLine();
+		System.out.print("상품수량: ");
+		sc.nextLine();
 	}
 
 }
