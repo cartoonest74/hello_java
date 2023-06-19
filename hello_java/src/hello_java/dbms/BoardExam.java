@@ -10,30 +10,40 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BoardExam {
-
-	public static void main(String[] args) throws IOException {
-		Connection conn = null;
+	Connection conn = null;
+	
+	private void connection() {
 		try {
-			// jdbc driver 등록
 			Class.forName("oracle.jdbc.OracleDriver");
-			
-			// connect
 			conn = DriverManager.getConnection(
 					"jdbc:oracle:thin:@localhost:1521/orcl",
 					"java",
 					"oracle");
+		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+	}
+	
+	private void insert() {
+		try {
+			connection();
 			
 			String sql = ""+
 			"INSERT INTO boards (bno, btitle, bcontent, bwrite, bdate, bfilename, bfiledate)"+
 					"VALUES(SEQ_BNO.NEXTVAL, ?, ?, ?, SYSDATE, ?, ?)";
 		
 			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"bno"});
-			pstmt.setString(1, "겨울이 가고");
+			pstmt.setString(1, "BLUE");
 			pstmt.setString(2, "봄이 찾아올까요");
-			pstmt.setString(3, "blue");
-			pstmt.setString(4, "img2.jpg");
+			pstmt.setString(3, "GD");
+			pstmt.setString(4, "img1.jpg");
 			
-			File file = new File("C:/Temp/img2.jpg");
+			File file = new File("C:/Temp/img1.jpg");
 			if(file.exists()) {
 				pstmt.setBlob(5, new FileInputStream(file));
 			}else {
@@ -54,20 +64,31 @@ public class BoardExam {
 				rs.close();
 			}
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}finally {
+			connClose();
+		}
+	}
+
+	private void connClose() {
+		if(conn != null) {
 			try {
-				// 연결끊기
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				
 			}
 		}
-		
+	}
+
+	public static void main(String[] args) throws IOException {
+		BoardExam boardexam = new BoardExam();
+		boardexam.insert();
 	}
 
 }
