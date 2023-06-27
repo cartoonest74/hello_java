@@ -14,11 +14,21 @@ public class BoardExam {
 	
 	private void connection() {
 		try {
-			Class.forName("oracle.jdbc.OracleDriver");
+//			mysql
+			Class.forName("com.mysql.cj.jdbc.Driver");
+//			oracle
+//			Class.forName("oracle.jdbc.OracleDriver");
 			conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521/orcl",
-					"java",
-					"oracle");
+					"jdbc:mysql://localhost:3306/mydealdb",
+					"mydeal",
+					"@rudwnGOD74");
+					
+					
+//					oracle
+//					DriverManager.getConnection(
+//					"jdbc:oracle:thin:@localhost:1521/orcl",
+//					"java",
+//					"oracle");
 		
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -34,14 +44,10 @@ public class BoardExam {
 			connection();
 			
 			String sql = ""+
-			"INSERT INTO boards (bno, btitle, bcontent, bwrite, bdate, bfilename, bfiledate)"+
-					"VALUES(SEQ_BNO.NEXTVAL, ?, ?, ?, SYSDATE, ?, ?)";
+			"SELECT name from Sutdent where id = ?";
 		
 			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"bno"});
-			pstmt.setString(1, "BLUE");
-			pstmt.setString(2, "봄이 찾아올까요");
-			pstmt.setString(3, "GD");
-			pstmt.setString(4, "img1.jpg");
+			pstmt.setInt(1, 1);
 			
 			File file = new File("C:/Temp/img1.jpg");
 			if(file.exists()) {

@@ -2,8 +2,9 @@ package hello_java.dbms;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class BoardDeleteExam {
 	public static void main(String[] arg) {
@@ -20,14 +21,20 @@ public class BoardDeleteExam {
 						.append("WHERE bno= ?")
 						.toString();
 			
-			PreparedStatement pstmt = conn.prepareStatement(sql);
+//			PreparedStatement pstmt = conn.prepareStatement(sql);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("show tables");
+//			pstmt.setInt(1,2);
 			
-			pstmt.setInt(1,2);
+//			int rows = pstmt.executeUpdate();
+//			System.err.println("삭제된 행 수" + rows);
 			
-			int rows = pstmt.executeUpdate();
-			System.err.println("삭제된 행 수" + rows);
+			while(rs.next()) {
+				System.out.println(rs.getString(1));
+			}
 			
-			pstmt.close();
+			rs.close();
+//			pstmt.close();
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

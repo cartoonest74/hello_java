@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="hellojava.practice2.Button.ClickListener"/>
-    <fullyQualifiedTypeName name="hellojava.practice2.Car"/>
-    <fullyQualifiedTypeName name="hellojava.practice2.Car.Tire"/>
-    <fullyQualifiedTypeName name="hello_java.collectionExam.PersonDao"/>
-    <fullyQualifiedTypeName name="hello_java.inheritest.Person"/>
-    <fullyQualifiedTypeName name="hello_java.collectionExam.PersonVo"/>
-    <fullyQualifiedTypeName name="hello_java.collectionExam.PersonMain"/>
-    <fullyQualifiedTypeName name="hello_java.lamda.ComparePerson"/>
-    <fullyQualifiedTypeName name="hello_java.lamda.Button.ClickListener"/>
-    <fullyQualifiedTypeName name="java.util.function.Function"/>
-    <fullyQualifiedTypeName name="hello_java.lamda.LamOperator"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
-    <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="java.util.Comparator"/>
     <fullyQualifiedTypeName name="java.lang.FunctionalInterface"/>
     <fullyQualifiedTypeName name="hello_java.stream.MakeStudent"/>
@@ -44,15 +31,33 @@
     <fullyQualifiedTypeName name="java.sql.SQLClientInfoException"/>
     <fullyQualifiedTypeName name="java.sql.SQLDataException"/>
     <fullyQualifiedTypeName name="java.lang.ClassNotFoundException"/>
-    <fullyQualifiedTypeName name="java.sql.DriverManager"/>
     <fullyQualifiedTypeName name="com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream"/>
     <fullyQualifiedTypeName name="java.sql.Types"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="java.sql.CallableStatement"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
-    <fullyQualifiedTypeName name="java.util.Date"/>
     <fullyQualifiedTypeName name="lombok.Data"/>
-    <fullyQualifiedTypeName name="java.util.Collections"/>
     <fullyQualifiedTypeName name="javax.swing.plaf.synth.SynthOptionPaneUI"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="javax.swing.plaf.basic.BasicArrowButton"/>
+    <fullyQualifiedTypeName name="jdbc_practice.Test.BoardTest"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.sql.DriverManager"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.Session"/>
+    <fullyQualifiedTypeName name="add.vo.Member"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.jdbc.result.ResultSetMetaData"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSetMetaData"/>
+    <fullyQualifiedTypeName name="java.sql.DatabaseMetaData"/>
+    <fullyQualifiedTypeName name="java.sql.Statement"/>
+    <fullyQualifiedTypeName name="java.util.Collections"/>
+    <fullyQualifiedTypeName name="java.lang.reflect.Member"/>
+    <fullyQualifiedTypeName name="com.jcraft.jsch.Session"/>
+    <fullyQualifiedTypeName name="Select.exception.NullpointerExcep"/>
+    <fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+    <fullyQualifiedTypeName name="Select.vo.Member"/>
+    <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+    <fullyQualifiedTypeName name="Select.test.TestMemberService"/>
+    <fullyQualifiedTypeName name="hello_java.collation.Member"/>
+    <fullyQualifiedTypeName name="hello_java.jenericT.Member"/>
+    <fullyQualifiedTypeName name="hello_java.jenericT2.Son"/>
 </qualifiedTypeNameHistroy>
