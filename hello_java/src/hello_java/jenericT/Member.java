@@ -3,6 +3,8 @@ package hello_java.jenericT;
 public class Member {
 	private String name;
 	private String age;
+	
+	public Member() {};
 	public Member(String name, String age) {
 		super();
 		this.name = name;

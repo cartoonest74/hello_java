@@ -6,7 +6,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,8 +15,10 @@ public class TestMemberService {
 	private DataOutputStream dos;
 	private DataInputStream dis;
 	private BufferedReader br;
+	
 	public TestMemberService() {};
-	public void start() throws UnknownHostException, IOException {
+	
+	public void start() throws IOException {
 		socket = new Socket("localhost", 50001);
 		System.out.println("client server connect");
 
@@ -116,7 +117,7 @@ public class TestMemberService {
 			System.out.print("etc 입력: ");
 			String input_etc = br.readLine();
 			
-			String input_char = "";
+			String input_char ="";
 						
 			switch(input_type) {
 				case 1 -> {
@@ -140,7 +141,7 @@ public class TestMemberService {
 			data.put("addr", input_addr);
 			data.put("type", input_type);
 			data.put("etc", input_etc);
-			data.put("charater", input_char);
+			data.put("charateristic", input_char);
 			
 			JSONObject request = new JSONObject();
 			request.put("menu", 1);
@@ -186,5 +187,4 @@ public class TestMemberService {
 			testmemberService.stop();
 		}
 	}
-
 }

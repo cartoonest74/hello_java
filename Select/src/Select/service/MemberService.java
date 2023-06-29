@@ -29,7 +29,7 @@ public class MemberService implements Service {
 
 	@Override
 	public void getMembers(JSONObject request) {
-		dao.selectAll(request);
+		dao.selectAll();
 	}
 
 

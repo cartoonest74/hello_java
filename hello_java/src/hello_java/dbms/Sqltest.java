@@ -61,26 +61,34 @@ public class Sqltest {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://" + localhost + ":"+forward_port+"/mydealdb",
+					"jdbc:mysql://" + localhost + ":"+forward_port+"/school",
 					"root",
 					"@gksrudwnGOD74");
 
 			String sql = new StringBuilder()
-					.append("SELECT * from mydealdb.Member")
-					.append(" where id = ?")
+					.append("INSERT INTO School(id, name, tel, addr, type, etc, charateristic)")
+					.append(" values(?, ?, ?, ?, ?, ?, ?)")
 					.toString();
 
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, 1);
+			pstmt.setString(1, "gdgg");
+			pstmt.setString(2, "gdgdgdg");
+			pstmt.setString(3, "255415");
+			pstmt.setString(4, "dgdgdg");
+			pstmt.setInt(5, 1);
+			pstmt.setString(6, "gdgdgdg");
+			pstmt.setString(7, "gdgdgdgdgd");
 //			DatabaseMetaData dmd = conn.getMetaData();
-			rs = pstmt.executeQuery();
+			int row = pstmt.executeUpdate();
 //			rsmd = rs.getMetaData();
-			while(rs.next()) {
-                         System.out.println(rs.getString("name"));
+//			while(rs.next()) {
+//                         System.out.println(rs.getString("name"));
+//			}
+//
+//			rs.close();
+			if(row != 0) {
+				System.out.println("suss");
 			}
-
-			rs.close();
-
 //			pstmt.close();
 
 		} catch (ClassNotFoundException e) {
