@@ -2,6 +2,7 @@ package boardTest.member;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
@@ -74,7 +75,7 @@ public class MemberDAO extends BoardSuper{
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, pwd);
 				pstmt.setInt(2, nid);
-			}
+				}
 			case 2 -> {
 				sql = new StringBuilder().append("UPDATE Member ")
 						.append("SET ")
@@ -86,7 +87,7 @@ public class MemberDAO extends BoardSuper{
 				pstmt.setString(1, pwd);
 				pstmt.setString(2, email);
 				pstmt.setInt(3, nid);
-			}
+				}
 			}
 
 			row = pstmt.executeUpdate();
@@ -97,6 +98,30 @@ public class MemberDAO extends BoardSuper{
 			DBConnect.discon();
 			response(row,request);
 		}
+	}
+	
+	// member delete
+	@Override
+	public void delete(JSONObject request) {
+		JSONObject data = request.getJSONObject("data");
+		table_name = data.getString("tablename");
+		int delNid = data.getInt("nid");
+		sql = new StringBuilder()
+				.append("DELETE FROM ")
+				.append(table_name)
+				.append(" where nid = ?").toString();
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, delNid);
+			row = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnect.discon();
+		}
+		response(row, request);
 	}
 	
 }

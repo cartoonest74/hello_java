@@ -2,19 +2,24 @@ package boardTest.product;
 
 public class ProductDTO {
 	private int nid;
+	private String id;
 	private String name;
 	private String price;
+	
+
 	private String content;
 
 	public ProductDTO() {}
 	
-	public ProductDTO(int nid, String name, String price, String content) {
+	public ProductDTO(int nid, String id, String name, String price, String content) {
 		super();
 		this.nid = nid;
+		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.content = content;
 	}
+	
 
 	public int getNid() {
 		return nid;
@@ -48,9 +53,19 @@ public class ProductDTO {
 		this.content = content;
 	}
 
+	public String getId() {
+		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
-		return "ProductDTO [nid=" + nid + ", name=" + name + ", price=" + price + ", content=" + content + "]";
+		return "ProductDTO [nid=" + nid + ", id=" + id + ", name=" + name + ", price=" + price + ", content=" + content
+				+ "]";
 	}
+
 
 }

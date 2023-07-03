@@ -129,11 +129,12 @@ public class MemberService implements Service {
 			if(! respone.getString("status").equals("ok"))
 				throw new InputFail("Input fail");
 		
-			Client.memberMenu(loginIf);
+			Client.memberMenu(respone);
 		
 		} catch (Exception e) {}
 	}
-
+	
+	// request 
 	private void request(int menuNum, JSONObject data) throws IOException {
 		data.put("tablename", "Member");
 	
@@ -187,7 +188,7 @@ public class MemberService implements Service {
 				}
 			System.out.println("---------[ "+loginId+" logON "+"]----------");
 			
-			Client.memberMenu(loginIf);
+			Client.memberMenu(respone);
 			
 		} catch (Exception e) {}
 	}
@@ -245,6 +246,8 @@ public class MemberService implements Service {
 			
 			String editChoice = br.readLine();
 			
+			// 로그인 기록 가져오기
+			JSONObject login_respone =  loginExists();
 			
 			switch(editChoice) {
 				case "1" -> {
@@ -252,14 +255,12 @@ public class MemberService implements Service {
 					request(3,request_data);
 				}
 				default -> {
-					int loginok = 1;
-					Client.memberMenu(loginok);
+					Client.memberMenu(login_respone);
 				}
 			}
 			
 			
-			int loginok = 1;
-			Client.memberMenu(loginok);
+			Client.memberMenu(login_respone);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -323,7 +324,9 @@ public class MemberService implements Service {
 					.toString();
 			System.out.println(logoutMsg);
 			
-			Client.memberMenu(loginIf);
+//			System.out.println("loginIf: "+ loginIf);
+			
+			Client.memberMenu(respone);
 			} catch (Exception e) {}
 	}
 
@@ -368,7 +371,7 @@ public class MemberService implements Service {
 			}
 			
 
-			Client.memberMenu(loginIf);
+			Client.memberMenu(logout_respone);
 		} catch (Exception e) {}
 	}
 }

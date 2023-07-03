@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="hello_java.accountBook.AccountBookServer"/>
     <fullyQualifiedTypeName name="java.net.Socket"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="hello_java.jenericT.Member"/>
     <fullyQualifiedTypeName name="memberBoard.conn.DBConnect"/>
     <fullyQualifiedTypeName name="boardTest.member.MemberDAO"/>
+    <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 </qualifiedTypeNameHistroy>

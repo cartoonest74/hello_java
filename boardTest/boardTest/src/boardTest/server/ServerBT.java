@@ -111,6 +111,7 @@ public class ServerBT {
 						case 3 -> update(data);
 						case 4 -> delete(data);
 						case 5 -> logout(data);
+						default -> close();
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -132,8 +133,11 @@ public class ServerBT {
 			// mapLogin 해당 userId(key) 로그인 기록 remove 
 			mapLogin.remove(loginId);
 			
+			data.put("loginId", loginId);
+			data.put("loginIf", loginIf);
+
 			int memberDAO = 0;
-			boardSuper_childs.get(memberDAO).login(data);
+			boardSuper_childs.get(memberDAO).logout(data);
 		}
 
 		private void login(JSONObject data) {

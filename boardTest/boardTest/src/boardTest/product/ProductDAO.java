@@ -25,7 +25,7 @@ public class ProductDAO extends BoardSuper{
 				String price = data.getString("price");
 				String content = data.getString("content");
 
-				sql = new StringBuilder().append("INSERT INTO Product").append("(nid, name, price, content) ")
+				sql = new StringBuilder().append("INSERT INTO Product").append("(nid, id, name, price, content) ")
 						.append("values(?, ?, ?, ?)").toString();
 
 				pstmt = conn.prepareStatement(sql);
@@ -41,6 +41,7 @@ public class ProductDAO extends BoardSuper{
 
 			} finally {
 				DBConnect.discon();
+				response(row, request);
 			}
 		}
 		
@@ -48,7 +49,7 @@ public class ProductDAO extends BoardSuper{
 		public void update(JSONObject request) {
 			try {
 				JSONObject data = request.getJSONObject("data");
-				int nid = data.getInt("nid");
+				int editNum = data.getInt("num");
 				String name = data.getString("name");
 				int price = data.getInt("price");
 				String content = data.getString("content");
@@ -58,13 +59,14 @@ public class ProductDAO extends BoardSuper{
 						.append("name = ?,")
 						.append("price = ?,")
 						.append("content  = ? ")
-						.append("where nid = ?")
+						.append("where num = ?")
 						.toString();
+				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, name);
 				pstmt.setInt(2, price);
 				pstmt.setString(3, content);
-				pstmt.setInt(4, nid);
+				pstmt.setInt(4, editNum);
 
 				row = pstmt.executeUpdate();
 
@@ -73,6 +75,7 @@ public class ProductDAO extends BoardSuper{
 
 			} finally {
 				DBConnect.discon();
+				response(row,request);
 			}
 		}
 

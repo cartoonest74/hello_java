@@ -3,6 +3,8 @@ package boardTest.board;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
+import org.json.JSONObject;
+
 public class BoardService implements Service {
 	private DataOutputStream dos;
 	private DataInputStream dis;
@@ -14,25 +16,25 @@ public class BoardService implements Service {
 	}
 
 	@Override
-	public void boardEnroll() {
+	public void boardEnroll(JSONObject loginJSON) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void boardSelect() {
+	public void boardSelect(JSONObject loginJSON) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void boardEdit() {
+	public void boardEdit(JSONObject loginJSON) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void boardDelete() {
+	public void boardDelete(JSONObject loginJSON) {
 		// TODO Auto-generated method stub
 
 	}
