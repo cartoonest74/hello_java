@@ -11,9 +11,11 @@ import boardTest.DBConn.DBConnect;
 import boardTest.extend.BoardSuper;
 
 public class MemberDAO extends BoardSuper{
+	
 	public MemberDAO(){
 		super();
 	}
+	
 	public MemberDAO(DataOutputStream dos, DataInputStream dis) {
 		super(dos, dis);
 	}
@@ -25,17 +27,16 @@ public class MemberDAO extends BoardSuper{
 	
 	public void logout(JSONObject request) {
 		int statusOK = 1;
-		
 		response(statusOK, request);
 	}
 	
 	public void insert(JSONObject request) {
 		try {
 			JSONObject data = request.getJSONObject("data");
-			String id = data.getString("id");
-			String name = data.getString("name");
-			String pwd = data.getString("pwd");
-			String email = data.getString("email");
+			String id = data.getString("id").trim();
+			String name = data.getString("name").trim();
+			String pwd = data.getString("pwd").trim();
+			String email = data.getString("email").trim();
 
 			sql = new StringBuilder().append("INSERT INTO Member").append("(id, name, pwd, email) ")
 					.append("values(?, ?, ?, ?)").toString();
@@ -61,12 +62,13 @@ public class MemberDAO extends BoardSuper{
 	public void update(JSONObject request) {
 		try {
 			JSONObject data = request.getJSONObject("data");
+			
 			int nid = data.getInt("nid");
-			String pwd = data.getString("pwd");
-			String email = data.getString("email");
-			int changeOption = data.getInt("changeOption");
+			String pwd = data.getString("pwd").trim();
+			String changeOption = data.getString("changeOption");
+			
 			switch (changeOption) {
-			case 1 -> {
+			case "1" -> {
 				sql = new StringBuilder()
 						.append("UPDATE Member ")
 						.append("SET ")
@@ -76,17 +78,22 @@ public class MemberDAO extends BoardSuper{
 				pstmt.setString(1, pwd);
 				pstmt.setInt(2, nid);
 				}
-			case 2 -> {
+			case "2" -> {
+				String email = data.getString("email").trim();
+				String name = data.getString("name").trim();
+				
 				sql = new StringBuilder().append("UPDATE Member ")
 						.append("SET ")
+						.append("name = ?, ")
 						.append("pwd = ?, ")
 						.append("email = ? ")
 						.append("where nid = ?")
 						.toString();
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, pwd);
-				pstmt.setString(2, email);
-				pstmt.setInt(3, nid);
+				pstmt.setString(1, name);
+				pstmt.setString(2, pwd);
+				pstmt.setString(3, email);
+				pstmt.setInt(4, nid);
 				}
 			}
 
@@ -104,7 +111,7 @@ public class MemberDAO extends BoardSuper{
 	@Override
 	public void delete(JSONObject request) {
 		JSONObject data = request.getJSONObject("data");
-		table_name = data.getString("tablename");
+		table_name = data.getString("tablename").trim();
 		int delNid = data.getInt("nid");
 		sql = new StringBuilder()
 				.append("DELETE FROM ")

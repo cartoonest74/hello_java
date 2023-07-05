@@ -90,7 +90,6 @@ public class ServerBT {
 				close();
 			}
 		}
-
 		private void recieve() {
 			threadPool.execute(() -> {
 				boolean flag = true;

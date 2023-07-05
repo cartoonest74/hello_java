@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,7 +56,6 @@ public class BoardSuper<T> implements DAO {
 	// response
 	protected void response(int row, JSONObject jsonobject) {
 		JSONObject response = new JSONObject();
-
 		if (row > 0) {
 
 			response.put("status", "ok");
@@ -95,26 +95,40 @@ public class BoardSuper<T> implements DAO {
 			int deleteALL = data.getInt("deleteALL");
 			table_name = data.getString("tablename");
 			switch (deleteALL) {
-			case 0 -> {
-				delNum = data.getInt("num");
-				sql = new StringBuilder().append("DELETE FROM ").append(table_name).append(" where num = ?").toString();
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, delNum);
+				case 0 -> {
+					delNum = data.getInt("num");
+					sql = new StringBuilder()
+							.append("DELETE FROM ")
+							.append(table_name)
+							.append(" where num= ?")
+							.toString();
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, delNum);
+					row = pstmt.executeUpdate();
+					
+				}
+				case 1 -> {
+					sql = new StringBuilder()
+							.append("TRUNCATE ")
+							.append(table_name)
+							.toString();
+					pstmt = conn.prepareStatement(sql);
+					
+					boolean trucncate_v = pstmt.execute();
+					
+					row = 0;
+					System.out.println(trucncate_v);
+					if(! trucncate_v) row = 1;
+					
+				}
 			}
-			case 1 -> {
-				sql = new StringBuilder().append("TRUNCATE ").append(table_name).toString();
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-			}
-			}
-
-			row = pstmt.executeUpdate();
-
+			System.out.println("row: " +  row);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBConnect.discon();
+			response(row, request);
 		}
-		response(row, request);
 	}
 
 	// TODO SELECT문 통합처리
@@ -167,7 +181,9 @@ public class BoardSuper<T> implements DAO {
 			}
 
 			if (table_name.equals("Board")) {
+				select_data.put("num", rs.getInt("num"));
 				select_data.put("nid", rs.getInt("nid"));
+				select_data.put("id", rs.getString("id"));
 				select_data.put("writer", rs.getString("writer"));
 				select_data.put("title", rs.getString("title"));
 				select_data.put("content", rs.getString("content"));
@@ -179,19 +195,13 @@ public class BoardSuper<T> implements DAO {
 		toRespone.put("classArray", arr_respone);
 		response(textCount, toRespone);
 	}
-
-	// Only use MemberDAO
-	@Override
-	public void login(JSONObject request) {
-		// TODO Auto-generated method stub
-
+	
+	// Member Only
+	public void logout(JSONObject data) {
+		
 	}
 
-	// Only use MemberDAO
-	@Override
-	public void logout(JSONObject request) {
-		// TODO Auto-generated method stub
-
+	public void login(JSONObject data) {
+		
 	}
-
 }

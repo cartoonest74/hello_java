@@ -21,7 +21,7 @@ public class ProductService implements Service {
 	private boolean inputInfoIf;
 
 	private String tablename = "Product";
-	private String className = "ProudctDAO";
+	private String className = "ProductDAO";
 	private ProductDAO productDAO;
 
 	// product column
@@ -32,7 +32,6 @@ public class ProductService implements Service {
 	private String content;
 
 	// 로그인 기록
-	private int loginIf;
 	private String loginId;
 
 	public ProductService(DataOutputStream dos, DataInputStream dis) {
@@ -75,23 +74,24 @@ public class ProductService implements Service {
 		dos.writeUTF(request.toString());
 		dos.flush();
 	}
-
-	// 로그인 기록
-	private JSONObject loginExists() throws IOException {
-		JSONObject respone = new JSONObject(dis.readUTF());
-		JSONObject login_data = respone.getJSONObject("data");
-
-		loginId = login_data.getString("loginId");
-		loginIf = login_data.getInt("loginIf");
-		return respone;
-	}
 	
 	// product select 해당 column value get
-		private String productSelectData() throws IOException {
-			String productSelectMsg;
+		private String productSelectInfo(String loginId) throws IOException {
+			
+			this.loginId =  loginId;
+
+			JSONObject data = new JSONObject();
+			data.put("id", loginId);
+			
+			int select = 2;
+			request(tablename, select, className, data);
+
 			JSONObject respone = new JSONObject(dis.readUTF());
+
 			JSONObject respone_data = respone.getJSONObject("data");
 			JSONArray toRespone = respone_data.getJSONArray("classArray");
+			
+			String productSelectMsg;
 			String dataExistsMsg = "NO SEARCH DATA";
 			
 			if(toRespone.length() > 0) {
@@ -100,8 +100,8 @@ public class ProductService implements Service {
 					JSONObject product = toRespone.getJSONObject(i);
 					productSelectMsg = new StringBuilder()
 							.append("--------------------------------------------\n")
-							.append("NUM \t NID \t NAME \t PRICE \t CONTENT \n")
-							.append(product.getInt("nid"))
+							.append("NUM \t NID \t ID \t NAME \t PRICE \t CONTENT \n")
+							.append(product.getInt("num"))
 							.append(". ")
 							.append(product.getInt("nid"))
 							.append(" \t ")
@@ -117,10 +117,12 @@ public class ProductService implements Service {
 							.toString();
 					System.out.println(productSelectMsg);
 				}
+				
 				return dataExistsMsg = "OK";
 			}
 			
-			System.out.println(dataExistsMsg);
+			System.out.println("There is no product, please register");
+
 			return dataExistsMsg;
 		}
 	
@@ -135,27 +137,26 @@ public class ProductService implements Service {
 	}
 
 	@Override
-	public void productEnroll(JSONObject loginJSON) {
+	public void productEnroll(String loginId) {
 		try {
-			loginId = loginJSON.getString("loginId");
+			this.loginId = loginId;
 
 			System.out.println("--------- [ productEnroll ] ------------");
 
 			// inputInfo empty check
-
-			name = inputInfo("NAME");
-			price = inputInfo("PRICE");
-			content = inputInfo("CONTENT");
 
 			JSONObject data = new JSONObject();
 			data.put("id", loginId);
 			
 			int select = 2;
 			request("Member", select, "MemberDAO", data);
-			JSONObject respone = new JSONObject(dis.readUTF());
-			JSONObject select_data = memberSelectData(respone);
-
+			JSONObject member_respone = new JSONObject(dis.readUTF());
+			JSONObject select_data = memberSelectData(member_respone);
 			nid = select_data.getInt("nid");
+			
+			name = inputInfo("NAME");
+			price = inputInfo("PRICE");
+			content = inputInfo("CONTENT");
 
 			data.put("nid", nid);
 			data.put("name", name);
@@ -165,13 +166,11 @@ public class ProductService implements Service {
 			int insert = 1;
 			request(tablename, insert, className, data);
 
-			// 로그인 기록 가져오기
-			JSONObject login_respone = loginExists();
-
-			if (!login_respone.getString("status").equals("ok"))
+			JSONObject respone = new JSONObject(dis.readUTF());
+			if (! respone.getString("status").trim().toLowerCase().equals("ok"))
 				throw new InputFail("Input fail");
 
-			Client.productMenu(login_respone);
+			Client.productMenu(loginId);
 
 		} catch (Exception e) {
 		}
@@ -179,28 +178,11 @@ public class ProductService implements Service {
 	}
 
 	@Override
-	public void productSelect(JSONObject loginJSON) {
+	public void productSelect(String loginId) {
 		try {
-
-			loginId = loginJSON.getString("loginId");
-
-			JSONObject data = new JSONObject();
-			data.put("id", loginId);
+			productSelectInfo(loginId);
 			
-			int select = 2;
-			request(tablename, select, className, data);
-
-			// 로그인 기록 가져오기
-			JSONObject login_respone = loginExists();
-
-			if (!login_respone.getString("status").equals("ok"))
-				throw new InputFail("input Fail!!");
-			
-			// prodcut 해당 id column data 
-			if (login_respone.getString("status").equals("ok"))
-				productSelectData();
-			
-			Client.productMenu(login_respone);
+			Client.productMenu(loginId);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -209,50 +191,33 @@ public class ProductService implements Service {
 	}
 
 	@Override
-	public void productEdit(JSONObject loginJSON) {
+	public void productEdit(String loginId) {
 		try {
+			System.out.println("--------- [ productEdit ] ------------");
 			
-			JSONObject login_respone = productSelectBasicForm(loginJSON);
-			String editMsg  = new StringBuilder()
-					.append("If you want to fix it, \n")
-					.append("1.ok or 2.no?\n")
-					.toString();
-			System.out.println(editMsg);
+			String select_no = productSelectInfo(loginId);
 			
-			int okNoChoice = Integer.parseInt(inputInfo("NUM"));
-			switch(okNoChoice) {
-			case 1 ->{
-				editProductInfo();
-				Client.productMenu(login_respone);
+			// TODO ^^^^
+			if(select_no.trim().toLowerCase().equals("ok")) {
+
+				String editMsg  = new StringBuilder()
+						.append("If you want to fix it, \n")
+						.append("1.ok or 2.no?\n")
+						.toString();
+				System.out.println(editMsg);
+				
+				String okNoChoice = inputInfo("Select Num");
+				
+				if(okNoChoice.equals("1")) editProductInfo();
+			
 			}
-			case 2 -> Client.productMenu(login_respone);
-			}
+			
+			Client.productMenu(loginId);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-	}
-
-	private JSONObject productSelectBasicForm(JSONObject loginJSON) throws IOException {
-		loginId = loginJSON.getString("loginId");
-		
-		System.out.println("--------- [ productEdit ] ------------");
-		JSONObject data = new JSONObject();
-		data.put("id", loginId);
-
-		int select = 2;
-		request(tablename, select, className, data);
-		String select_ok = productSelectData();
-		
-		// 로그인 기록 가져오기
-		JSONObject login_respone = loginExists();
-		if(! select_ok.equals("ok")) {
-			// 값이 없을시 product menu로 back
-			Client.productMenu(login_respone);
-		
-		}
-		return login_respone;
 	}
 	
 	// product input editinfo
@@ -266,58 +231,65 @@ public class ProductService implements Service {
 		
 		editData.put("num", editNum);
 		editData.put("name", name);
-		editData.put("price", price);
+		editData.put("price", Integer.parseInt(price));
 		editData.put("content", content);
 		
 		int update = 3;
 		request(tablename, update, className, editData);
 		
 		JSONObject respone = new JSONObject(dis.readUTF());
-		if (!respone.getString("status").equals("ok"))
+		if (! respone.getString("status").equals("ok"))
 			throw new InputFail("input Fail!!");
 	}
 
 	@Override
-	public void productDelete(JSONObject loginJSON) {
+	public void productDelete(String loginId) {
 		try {
-			JSONObject login_respone = productSelectBasicForm(loginJSON);
-			String delteMsg = new StringBuilder()
-					.append("1. ALL Delte")
-					.append(" \t ")
-					.append("2. delete by num")
-					.append(" \t ")
-					.append("3. Back")
-					.toString();
-			System.out.println(delteMsg);
-			int delChoice= Integer.parseInt(inputInfo("select Num"));
+			String select_no =productSelectInfo(loginId);
 			
-			int delete = 4;
-			switch(delChoice) {
-				case 1->{
-					JSONObject data = new JSONObject();
-					data.put("deleteALL",1);
-					
-					request(tablename, delete, className, data);
-				}
-				case 2->{
-					int delNum = Integer.parseInt(inputInfo("Num: "));
-					
-					JSONObject data = new JSONObject();
-					data.put("deleteALL",0);
-					data.put("num", delNum);
-					request(tablename, delete, className, data);
-				}
-				case 3-> Client.productMenu(login_respone);
-			}
+			if(select_no.trim().toLowerCase().equals("ok")) deleteProductInfo();
 			
-			JSONObject respone = new JSONObject(dis.readUTF());
-			if (!respone.getString("status").equals("ok"))
-				throw new InputFail("input Fail!!");
-			
-			Client.productMenu(login_respone);
+			Client.productMenu(loginId);
 			
 		} catch (Exception e) {};
 
+	}
+	
+	// proudct delete info 및 전체 삭제 할지 상품번호로 삭제할지 choose
+	private void deleteProductInfo() throws IOException, InputFail {
+		String delteMsg = new StringBuilder()
+				.append("1. ALL Delte")
+				.append(" \t ")
+				.append("2. delete by num")
+				.append(" \t ")
+				.append("3. Back")
+				.toString();
+		System.out.println(delteMsg);
+		String delChoice= inputInfo("Select Num").trim();
+		
+		int delete = 4;
+		
+		JSONObject data = new JSONObject();
+		
+		switch(delChoice) {
+			case "1"->{
+				data.put("deleteALL",1);
+				request(tablename, delete, className, data);
+			}
+			case "2"->{
+				System.out.println("Enter the bulletin board number to delete");
+				int delNum = Integer.parseInt(inputInfo("Num").trim());
+				
+				data.put("deleteALL",0);
+				data.put("num", delNum);
+				request(tablename, delete, className, data);
+			}
+			default -> Client.productMenu(loginId);
+		}
+		
+		JSONObject respone = new JSONObject(dis.readUTF());
+		if (! respone.getString("status").equals("ok"))
+			throw new InputFail("input Fail!!");
 	}
 
 }

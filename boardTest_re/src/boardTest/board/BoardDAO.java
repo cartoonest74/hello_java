@@ -22,20 +22,24 @@ public class BoardDAO extends BoardSuper{
 	// board문 insert
 	public void insert(JSONObject request) {
 		JSONObject data = request.getJSONObject("data");
+		String id = data.getString("id");
 		int nid = data.getInt("nid");
 		String writer = data.getString("writer");
 		String title = data.getString("title");
 		String content = data.getString("content");
 
-		sql = new StringBuilder().append("INSERT INTO Board").append("(nid,writer,title,content) ")
-				.append("values(?, ?, ?, ?)").toString();
+		sql = new StringBuilder().append("INSERT INTO Board")
+				.append("(id, nid, writer, title, content) ")
+				.append("values(?, ?, ?, ?, ?)")
+				.toString();
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, nid);
-			pstmt.setString(2, writer);
-			pstmt.setString(3, title);
-			pstmt.setString(4, content);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, nid);
+			pstmt.setString(3, writer);
+			pstmt.setString(4, title);
+			pstmt.setString(5, content);
 
 			row = pstmt.executeUpdate();
 
@@ -44,6 +48,7 @@ public class BoardDAO extends BoardSuper{
 
 		} finally {
 			DBConnect.discon();
+			response(row, request);
 		}
 	}
 
@@ -51,23 +56,23 @@ public class BoardDAO extends BoardSuper{
 		public void update(JSONObject request) {
 			try {
 				JSONObject data = request.getJSONObject("data");
-				int nid = data.getInt("nid");
+				int editNum = data.getInt("num");
 				String writer = data.getString("writer");
 				String title = data.getString("title");
 				String content = data.getString("content");
 				sql = new StringBuilder()
 						.append("UPDATE Board ")
 						.append("SET ")
-						.append("writer = ?,")
-						.append("title = ?,")
+						.append("writer = ?, ")
+						.append("title = ?, ")
 						.append("content  = ? ")
-						.append("where nid = ?")
+						.append("where num = ?")
 						.toString();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, writer);
 				pstmt.setString(2, title);
 				pstmt.setString(3, content);
-				pstmt.setInt(4, nid);
+				pstmt.setInt(4, editNum);
 
 				row = pstmt.executeUpdate();
 
@@ -76,6 +81,7 @@ public class BoardDAO extends BoardSuper{
 
 			} finally {
 				DBConnect.discon();
+				response(row, request);
 			}
 		}
 }

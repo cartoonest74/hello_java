@@ -19,23 +19,27 @@ public class ProductDAO extends BoardSuper{
 	// product문 insert
 		public void insert(JSONObject request) {
 			try {
+				
 				JSONObject data = request.getJSONObject("data");
 				int nid = data.getInt("nid");
+				String id = data.getString("id");
 				String name = data.getString("name");
 				String price = data.getString("price");
 				String content = data.getString("content");
 
-				sql = new StringBuilder().append("INSERT INTO Product").append("(nid, id, name, price, content) ")
-						.append("values(?, ?, ?, ?)").toString();
+				sql = new StringBuilder().append("INSERT INTO Product").append("(id, nid, name, price, content) ")
+						.append("values(?, ?, ?, ?, ?)").toString();
 
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, nid);
-				pstmt.setString(2, name);
-				pstmt.setString(3, price);
-				pstmt.setString(4, content);
+				
+				pstmt.setString(1, id);
+				pstmt.setInt(2, nid);
+				pstmt.setString(3, name);
+				pstmt.setString(4, price);
+				pstmt.setString(5, content);
 
 				row = pstmt.executeUpdate();
-
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 
@@ -50,14 +54,14 @@ public class ProductDAO extends BoardSuper{
 			try {
 				JSONObject data = request.getJSONObject("data");
 				int editNum = data.getInt("num");
-				String name = data.getString("name");
+				String name = data.getString("name").trim();
 				int price = data.getInt("price");
-				String content = data.getString("content");
+				String content = data.getString("content").trim();
 				sql = new StringBuilder()
 						.append("UPDATE Product ")
 						.append("SET ")
-						.append("name = ?,")
-						.append("price = ?,")
+						.append("name = ?, ")
+						.append("price = ?, ")
 						.append("content  = ? ")
 						.append("where num = ?")
 						.toString();

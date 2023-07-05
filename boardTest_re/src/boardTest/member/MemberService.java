@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import boardTest.exception.InputFail;
@@ -97,7 +98,6 @@ public class MemberService implements Service {
 		// id값 존재여부
 		JSONObject respone = new JSONObject(dis.readUTF());
 		int row = respone.getInt("row");
-//		int idExists = memberDAO.select(request);
 		if (row < 1) {
 			System.out.println("Noneexistent ID!!, Please enter again");
 			idInspect();
@@ -125,13 +125,27 @@ public class MemberService implements Service {
 
 			request(1, data);
 			
-			JSONObject respone = loginExists();
+			JSONObject respone = new JSONObject(dis.readUTF());
+			JSONObject login_respone = loginExists(respone);
+			
 			if(! respone.getString("status").equals("ok"))
 				throw new InputFail("Input fail");
-		
-			Client.memberMenu(respone);
+			
+			loginEN_ClinetToMemberMenu();
 		
 		} catch (Exception e) {}
+	}
+
+	// loginId, loginIf 결합해서 Client memberMenu 메소드로 값 전달 
+	private void loginEN_ClinetToMemberMenu() throws IOException {	
+		
+		String loginExistsNoexists = new StringBuilder()
+				.append(loginId)
+				.append(" ")
+				.append(loginIf)
+				.toString().trim();
+		
+		Client.memberMenu(loginExistsNoexists);
 	}
 	
 	// request 
@@ -146,56 +160,8 @@ public class MemberService implements Service {
 		dos.flush();
 	}
 
-	@Override
-	public void login() {
-		System.out.println("--------- [ LOGIN ] ------------");
-		try {
-			id = idInspect();
-			pwd = inputInfo("PWD");
-			JSONObject data = new JSONObject();
-			
-			data.put("id", id);
-			
-			// id검사 및 pwd 가져오기
-			int select = 2;
-			request(select, data);
-			
-			JSONObject id_respone = new JSONObject(dis.readUTF());
-			if(id_respone.getInt("row") < 1) {
-				System.out.println("Wrong ID, pleas enter again");
-				login();
-			}
-			
-			JSONObject select_data = memberSelectData(id_respone);
-			
-			String compare_pwd = select_data.getString("pwd");
-			
-			if(id_respone.getInt("row") > 0 && ! compare_pwd.equals(pwd)) {
-				System.out.println("Wrong PWD, please enter again");
-				login();
-			}
-			
-			nid = select_data.getInt("nid");
-			data.put("nid", nid);
-			
-			int login = 0;
-			request(login, data);
-			
-			JSONObject respone = loginExists();
-			
-			if(! respone.getString("status").equals("ok")) {
-				throw new InputFail("Input fail");
-				}
-			System.out.println("---------[ "+loginId+" logON "+"]----------");
-			
-			Client.memberMenu(respone);
-			
-		} catch (Exception e) {}
-	}
-
 	// 로그인 기록 
-	private JSONObject loginExists() throws IOException {
-		JSONObject respone = new JSONObject(dis.readUTF());
+	private JSONObject loginExists(JSONObject respone) throws IOException {
 		JSONObject login_data = respone.getJSONObject("data");
 		
 		loginId = login_data.getString("loginId");
@@ -218,15 +184,16 @@ public class MemberService implements Service {
 		try {
 			System.out.println("--------- [ MYIFNO ] ------------");
 			JSONObject data = new JSONObject();
-			String editId = loginId; 
-			
-			data.put("id", editId);
+			String edit_id = loginId.trim();
+			data.put("id", edit_id);
 			
 			int select = 2;
 			request(select, data);
+			System.out.println("11111111111111");
 			
-			JSONObject respone = new JSONObject(dis.readUTF());
-			JSONObject select_data = memberSelectData(respone);
+			JSONObject member_respone = new JSONObject(dis.readUTF());
+			JSONObject select_data = memberSelectData(member_respone);
+			System.out.println("222222222222");
 			
 			String myInfos = new StringBuilder()
 					.append("ID \t NAME \t EMAIL \n")
@@ -240,28 +207,24 @@ public class MemberService implements Service {
 			
 			String editMsg = new StringBuilder()
 					.append("Would you like to edit? ") 
-					.append("1.yes 2.no")
+					.append("1.yes 2.no \n")
 					.toString();
-			System.out.println(editMsg);
+			System.out.print(editMsg);
 			
-			String editChoice = br.readLine();
+			String editChoice = inputInfo("Select Num");
 			
-			// 로그인 기록 가져오기
-			JSONObject login_respone =  loginExists();
-			
-			switch(editChoice) {
-				case "1" -> {
+			if(editChoice.trim().equals("1")) {
 					JSONObject request_data = editData(select_data);
-					request(3,request_data);
-				}
-				default -> {
-					Client.memberMenu(login_respone);
-				}
+					int update = 3;
+					request(update, request_data);
+					
+					JSONObject edit_respone = new JSONObject(dis.readUTF());
+					if(! edit_respone.getString("status").equals("ok"))
+						throw new InputFail("Input fail");
 			}
 			
-			
-			Client.memberMenu(login_respone);
-		} catch (IOException e) {
+			loginEN_ClinetToMemberMenu();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -269,35 +232,29 @@ public class MemberService implements Service {
 	// 
 	private JSONObject editData(JSONObject select_data) throws IOException {
 		System.out.println("----- Password validation -----");
-		pwd = inputInfo("PWD");
-		
-		String compare_pwd = select_data.getString("pwd");
-		
-		if(! compare_pwd.equals(pwd)) {
-			System.out.println("Passwords do not match!!. please enter again");
-			editData(select_data);
-		}
+		pwdValidatation(select_data);
 		
 		String editMsg = new StringBuilder()
 				.append("Please enter your changes. Enter if nothing.\n")
 				.append("1.Enter password only 2. All( Exclude id ) \n")
-				.append("Num: ")
 				.toString();
 		System.out.print(editMsg);
-		String editChoice = inputInfo("Num");
+		String editChoice = inputInfo("Select Num");
+
 		JSONObject data = new JSONObject();
 
 		pwd = inputInfo("PWD");
 		data.put("pwd", pwd);
+		data.put("changeOption", editChoice);
 
-		switch(editChoice) {
-			case "2" ->{
+		if(editChoice.trim().equals("2")) {
+				
 				name = inputInfo("NAME");
 				email = inputInfo("EMAIL");
+				
 				data.put("name", name);
 				data.put("email", email);
-			}
-			default ->{}
+				data.put("changeOption", editChoice);
 		}
 
 		nid = select_data.getInt("nid");
@@ -305,16 +262,76 @@ public class MemberService implements Service {
 		return data;
 	}
 
+	private void pwdValidatation(JSONObject select_data) throws IOException {
+//		System.out.println("----- Password validation -----");
+		pwd = inputInfo("PWD");
+		
+		String compare_pwd = select_data.getString("pwd");
+		
+		if(! compare_pwd.equals(pwd)) {
+			System.out.println("Passwords do not match!!. please enter again");
+			pwdValidatation(select_data);
+		}
+	}
+
+	@Override
+	public void login() {
+		System.out.println("--------- [ LOGIN ] ------------");
+		try {
+			id = idInspect().trim();
+			pwd = inputInfo("PWD").trim();
+			JSONObject data = new JSONObject();
+			
+			data.put("id", id);
+			
+			// id검사 및 pwd 가져오기
+			int select = 2;
+			request(select, data);
+			
+			JSONObject select_respone = new JSONObject(dis.readUTF());
+			if(select_respone.getInt("row") < 1) {
+				System.out.println("Wrong ID, pleas enter again");
+				login();
+			}
+			
+			JSONObject select_data = memberSelectData(select_respone);
+			
+			String compare_pwd = select_data.getString("pwd");
+			
+			if(select_respone.getInt("row") > 0 && ! compare_pwd.equals(pwd)) {
+				System.out.println("Wrong PWD, please enter again");
+				login();
+			}
+			
+			nid = select_data.getInt("nid");
+			data.put("nid", nid);
+			
+			int login = 0;
+			request(login, data);
+			
+			JSONObject respone = new JSONObject(dis.readUTF());
+			JSONObject login_respone = loginExists(respone);
+			
+			if(! respone.getString("status").equals("ok")) {
+				throw new InputFail("Login fail");
+				}
+			
+			loginEN_ClinetToMemberMenu();
+			
+		} catch (Exception e) {}
+	}
+	
 	@Override
 	public void logout() {
 		try {
 			int logout = 5;
 			request(logout, new JSONObject());
 			
-			JSONObject respone = loginExists();
+			JSONObject respone = new JSONObject(dis.readUTF());
+			JSONObject login_respone = loginExists(respone);
 			
 			if(! respone.getString("status").equals("ok")) {
-				throw new InputFail("Input fail");
+				throw new InputFail("Logout fail");
 				}
 			
 			String logoutMsg = new StringBuilder()
@@ -324,9 +341,8 @@ public class MemberService implements Service {
 					.toString();
 			System.out.println(logoutMsg);
 			
-//			System.out.println("loginIf: "+ loginIf);
 			
-			Client.memberMenu(respone);
+			loginEN_ClinetToMemberMenu();
 			} catch (Exception e) {}
 	}
 
@@ -347,15 +363,10 @@ public class MemberService implements Service {
 			
 			JSONObject select_respone = new JSONObject(dis.readUTF());
 			JSONObject select_data = memberSelectData(select_respone);
+			pwdValidatation(select_data);
 			
-
-			int logout = 5;
-			request(logout, data);
-			
-			JSONObject logout_respone = loginExists();
-			System.out.println("Secession "+ loginId);
-			if(! logout_respone.getString("status").equals("ok")) {
-				throw new InputFail("Input fail");
+			if(loginId.equals(id)) {
+				logout();
 			}
 			
 			nid = select_data.getInt("nid");
@@ -364,14 +375,16 @@ public class MemberService implements Service {
 			int delete = 4;
 			request(delete, data);
 			
-			JSONObject del_respone = loginExists();
-			System.out.println("Secession "+ loginId);
-			if(! del_respone.getString("status").equals("ok")) {
-				throw new InputFail("Input fail");
+			JSONObject respone = new JSONObject(dis.readUTF());
+			JSONObject login_respone = loginExists(respone);
+			System.out.println("Secession "+ id);
+			
+			if(! respone.getString("status").equals("ok")) {
+				throw new InputFail("SignOut fail");
 			}
 			
 
-			Client.memberMenu(logout_respone);
+			loginEN_ClinetToMemberMenu();
 		} catch (Exception e) {}
 	}
 }
